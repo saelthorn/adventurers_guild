@@ -103,5 +103,3 @@ ANALYZE TABLE member;
 OPTIMIZE TABLE quest;
 ```
 
-## License
-This project is licensed under the Guild Charter of Aetheria. All rights reserved by the Adventurers Guild Association.
