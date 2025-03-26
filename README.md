@@ -1,13 +1,13 @@
 # Adventurers Guild Database System - README
 
 ## Overview
-This database system manages all operations for an Adventurers Guild, including member tracking, quest management, item inventory, and reward distribution. The system is built with MySQL and includes views, stored procedures, triggers, and subqueries to automate guild operations.
+This database system manages all operations for a fantasy adventurers guild, including member tracking, quest management, inventory control, and reward distribution. The system is built with MySQL and includes views, stored procedures, triggers, and subqueries to automate guild operations.
 
 ## Database Features
 
 ### Views
 1. **ActiveQuests**  
-   - Shows available quests  
+   - Displays available quests  
    - `SELECT * FROM ActiveQuests;`
 
 2. **TopAdventurers**  
@@ -15,34 +15,35 @@ This database system manages all operations for an Adventurers Guild, including 
    - `SELECT * FROM TopAdventurers LIMIT 5;`
 
 3. **High_Value_Items**  
-   - Displays items worth >1000 gold  
+   - Shows items worth over 1000 gold  
    - `SELECT * FROM High_Value_Items;`
 
 4. **Member_Stats**  
-   - Shows member ranks and performance  
-   - `SELECT * FROM Member_Stats WHERE rank_name = 'Gold';`
+   - Displays member ranks and performance  
+   - `SELECT * FROM Member_Stats WHERE quest_completion_rate > 0.8;`
 
-### Key Stored Procedures
+### Stored Procedures
+1. **AssignQuest(questID, memberID)**  
+   - Assigns quest to a member's party  
+   - `CALL AssignQuest(5, 3);`
 
-| Procedure | Description | Usage Example |
-|-----------|-------------|---------------|
-| `AssignQuest` | Assigns quest to member's party | `CALL AssignQuest(5, 3);` |
-| `PromoteMember` | Promotes eligible members | `CALL PromoteMember(4);` |
-| `TotalVaultValue` | Calculates vault's total worth | `SELECT TotalVaultValue();` |
+2. **PromoteMember(memberId)**  
+   - Promotes eligible members  
+   - `CALL PromoteMember(4);`
 
-### Important Triggers
+3. **TotalVaultValue()**  
+   - Calculates total vault worth  
+   - `SELECT TotalVaultValue();`
 
+### Triggers
 1. **AutoRankUp**  
-   - Automatically promotes high-performing members  
-   - Activates when completion rate ≥90%
+   - Automatically promotes high-performing members
 
 2. **Prevent_Item_Deletion**  
-   - Blocks deletion of rare/legendary items  
-   - Returns error message if attempted
+   - Blocks deletion of rare items
 
 3. **Set_Completion_Date**  
-   - Timestamps quest completions  
-   - Sets deadline to current date upon completion
+   - Timestamps quest completions
 
 ## Installation
 1. Import the database:
@@ -50,59 +51,57 @@ This database system manages all operations for an Adventurers Guild, including 
    mysql -u username -p < adventurers_guild_db.sql
    ```
 
-2. Create required user accounts:
+2. Create a user with appropriate permissions:
    ```sql
-   CREATE USER 'guild_clerk'@'localhost' IDENTIFIED BY 'securepassword';
-   GRANT SELECT ON guild_db.* TO 'guild_clerk'@'localhost';
-   GRANT EXECUTE ON PROCEDURE AssignQuest TO 'guild_clerk'@'localhost';
+   CREATE USER 'guild_admin'@'localhost' IDENTIFIED BY 'securepassword';
+   GRANT ALL PRIVILEGES ON `adventurers guild db`.* TO 'guild_admin'@'localhost';
    ```
 
 ## Usage Examples
 
-### Assigning a New Quest
+### Member Management
+```sql
+-- Register new member
+CALL register_new_member('New Adventurer', 'Ranger', @new_id);
+SELECT @new_id;
+
+-- View member stats
+SELECT * FROM Member_Stats WHERE name LIKE '%New%';
+```
+
+### Quest Operations
 ```sql
 -- Find available quests
-SELECT * FROM ActiveQuests WHERE difficulty_rating = 'B';
+SELECT * FROM ActiveQuests WHERE difficulty_rating = 'C';
 
--- Assign to party
-CALL AssignQuest(4, 2); -- Assigns quest 4 to Lyra's party
+-- Complete a quest
+UPDATE quest SET completed = 1 WHERE quest_id = 3;
 ```
 
-### Checking Member Performance
+### Inventory Management
 ```sql
--- View top performers
-SELECT * FROM TopAdventurers WHERE quest_completion_rate > 0.85;
+-- Add new item
+INSERT INTO item (name, rarity, value) 
+VALUES ('Dragonbone Sword', 'Epic', 2500);
 
--- Get member statistics
-SELECT * FROM Member_Stats WHERE name LIKE '%Thorne%';
-```
-
-### Managing Vault Items
-```sql
--- View valuable items
+-- View vault contents
 SELECT * FROM High_Value_Items ORDER BY value DESC;
-
--- Check total vault worth
-SELECT TotalVaultValue() AS total_assets;
 ```
 
-## Business Rules Enforcement
-The database automatically:
-- Validates quest assignments by rank requirements
-- Tracks and rewards high performance
-- Protects valuable items from deletion
-- Maintains accurate completion records
+## Business Rules
+1. Members must meet completion rate thresholds for promotion
+2. Rare items cannot be deleted from inventory
+3. Quest rewards are automatically calculated based on:
+   - Difficulty level
+   - Member rank multipliers
+   - Party size
 
 ## Maintenance
-1. **Backup Database**  
-   ```bash
-   mysqldump -u username -p adventurers_guild_db > guild_backup.sql
-   ```
+Regularly run these optimization queries:
+```sql
+ANALYZE TABLE member;
+OPTIMIZE TABLE quest;
+```
 
-2. **Performance Optimization**  
-   Run monthly:
-   ```sql
-   ANALYZE TABLE member, quest, item;
-   OPTIMIZE TABLE quest_reward;
-   ```
-
+## License
+This project is licensed under the Guild Charter of Aetheria. All rights reserved by the Adventurers Guild Association.
