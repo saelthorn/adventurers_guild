@@ -38,7 +38,7 @@ SELECT member_id, name, quest_completion_rate
 FROM member 
 ORDER BY quest_completion_rate DESC;
 ```
-This leaderboard has increased quest participation by 37% since implementation."
+The leaderboard system encourages adventurers to accept as many quests as many as they can handle."
 
 **Presenter 3 (3 minutes):**
 [Third view example]
@@ -88,7 +88,7 @@ SELECT name, value
 FROM item 
 WHERE value = (SELECT MAX(value) FROM item);
 ```
-When we found the 5000gp Crystal of Aetherius this way, we immediately increased its security level."
+This is to increase the security in the vault."
 
 ## Stored Procedures Presentation (Presenters 6 & 1 - 6 minutes total)
 
@@ -108,7 +108,7 @@ BEGIN
 END $$
 DELIMITER ;
 ```
-This reduced assignment errors by 82%."
+This is to reduce assignment errors."
 
 **Presenter 1 (3 minutes):**
 [Second example]
@@ -144,7 +144,7 @@ BEGIN
     END IF;
 END;
 ```
-This has improved member retention by 45%."
+This is to improve member retention."
 
 **Presenter 3 (3 minutes):**
 [Second example]
@@ -162,7 +162,7 @@ BEGIN
 END //
 DELIMITER ;
 ```
-This saved the Sword of Kings from accidental deletion last month!"
+This is to save accidental deletion of rare or legendary items/artifacts.
 
 ## Demonstration (All Presenters - 5 minutes)
 [Interactive demo showing system workflow]
