@@ -173,13 +173,7 @@ This is to save accidental deletion of rare or legendary items/artifacts.
 5. View updated leaderboards
 
 ## Conclusion (All Presenters - 3 minutes)
-**Presenter 4:** "In summary, our database system transforms guild management through:"
-**Presenter 5:** "Intelligent views that simplify complexity"
-**Presenter 6:** "Powerful subqueries that reveal insights"
-**Presenter 1:** "Efficient procedures that automate workflows"
-**Presenter 2:** "Reliable triggers that enforce standards"
-**Presenter 3:** "Together creating a robust operational foundation"
-**All:** "We're happy to take any questions about our Adventurers Guild Database System!"
+"In summary, our database system transforms guild management through: Intelligent views that simplify complexity Powerful subqueries that reveal insights Efficient procedures that automate workflows Reliable triggers that enforce standards Together creating a robust operational foundation"
 
-[End with slide showing contact information for all team members]
+
 
